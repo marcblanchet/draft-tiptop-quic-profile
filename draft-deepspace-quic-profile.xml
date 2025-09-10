@@ -8,10 +8,10 @@
 <!ENTITY nbhy "&#8209;">
 <!ENTITY wj "&#8288;">
 ]>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-many-tiptop-quic-profile-00" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-many-tiptop-quic-profile-01" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" version="3">
   <front>
     <title>QUIC Profile for Deep Space</title>
-    <seriesInfo name="Internet-Draft" value="draft-many-tiptop-quic-profile-00"/>
+    <seriesInfo name="Internet-Draft" value="draft-many-tiptop-quic-profile-01"/>
     <author fullname="Marc Blanchet" initials="MB">
       <organization>Viagenie</organization>
       <address>
@@ -82,7 +82,7 @@
         <t>The max_idle_timeout transport parameter is specified in section 8.2 of <xref target="RFC9000"/>.</t>
     </section>
     <section>
-        <name>Flow and Congestion Control</name>
+        <name>Congestion Control</name>
         <t>Congestion control(CC) in transport protocols is used to provide fair access to path bandwidth by avoiding congestion in the network, shown by increased latency or packet drops by intermediate nodes. When such event is discovered, the sources pace down to decrease the bandwidth usage and recover congestion in the network.</t>
         <t><xref target="I-D.many-deepspace-ip-assessment"/> discusses that given intermittent links in deep space because of orbital dynamics, intermediate nodes have to temporarily store either L2 frames or L3 packets when links are down until the link is up again. This behavior will be interpreted by various CC algorithms as congestion, therefore pacing down the source. However, this is not the right behavior, since it is on purpose that storing frames or packets is needed in deep space.</t>
         <t>Therefore, QUIC stacks should be configured to not react to those events and instead only manage flow control with the window size set by the application at connection establishment.</t>
@@ -98,9 +98,13 @@
         </section>
     </section>
     <section>
-        <name>Max Data</name>
-        <t>initial_max_data is the maximum number of bytes that can be sent on a connection <xref target="RFC9000"/>. initial_max_stream_data is similar but per stream. Given the BDP of a typical deep space connection, applications should set these parameters to enough large values so that the source is capable of sending data while the bandwidth is available.</t>
-        <t>The various initial_max_data transport parameters are specified in section 8.2 of <xref target="RFC9000"/>.</t>
+        <name>Flow Control</name>
+        <t></t>
+        <section>
+            <name>Max Data</name>
+            <t>initial_max_data is the maximum number of bytes that can be sent on a connection <xref target="RFC9000"/>. initial_max_stream_data is similar but per stream. Given the BDP of a typical deep space connection, applications should set these parameters to enough large values so that the source is capable of sending data while the bandwidth is available.</t>
+            <t>The various initial_max_data transport parameters are specified in section 8.2 of <xref target="RFC9000"/>.</t>
+        </section>
     </section>
     <section>
         <name>Path MTU discovery</name>
@@ -175,7 +179,7 @@
     </references>
     <section anchor="Acknowledgements" numbered="false">
       <name>Acknowledgements</name>
-      <t>This document and its underlying work has been reviewed and discussed by many, who have provided valuable feedback and comments, including disagreements, and made an overall more solid document. These people are, in no specific order: Lars Eggert, Christian Huitema, Adolfo Ochagavia.</t>
+      <t>This document and its underlying work has been reviewed and discussed by many, who have provided valuable feedback and comments, including disagreements, and made an overall more solid document. These people are, in no specific order: Lars Eggert, Christian Huitema, Adolfo Ochagavia, Mirja Kuehlewind.</t>
       <t>The Quinn QUIC stack was used for testing. We would like to acknowledge the help of Benjamin Saunders and Adolfo Ochagavia in using Quinn.</t>
     </section>
   </back>
