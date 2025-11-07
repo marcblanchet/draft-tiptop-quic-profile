@@ -21,6 +21,15 @@
         <email>marc.blanchet@viagenie.ca</email>
       </address>
     </author>
+    <author fullname="Wesley M. Eddy" initials="WE">
+        <organization>Aalyria Technologies</organization>
+        <address>
+          <postal>
+            <country>USA</country>
+          </postal>
+          <email>marc.blanchet@viagenie.ca</email>
+        </address>
+    </author>
     <area>Internet</area>
     <workgroup>Internet Engineering Task Force</workgroup>
     <keyword>quic</keyword>
