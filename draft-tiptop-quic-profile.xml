@@ -112,8 +112,10 @@
     </section>
     <section>
         <name>Acknowledgement Frequency</name>
-        <t>QUIC stacks have various mechanisms to trigger acknowledgements, as described in <xref target="RFC9000"/>, <xref target="I-D.ietf-quic-ack-frequency"/>. There are advantages of sending "frequent" acknowledgements, such as the source can free out memory of received frames earlier. However, it may use more bandwidth. Applications should set the acknowledgement frequency on connection establishment based on their requirements.</t>
-        <t>The max_ack_delay and ack_delay_exponent transport parameters are specified in section 8.2 of <xref target="RFC9000"/>.</t>
+	<t>QUIC stacks have various mechanisms to trigger acknowledgements (ACKs), as described in <xref target="RFC9000"/>, <xref target="I-D.ietf-quic-ack-frequency"/>. There are advantages of sending "frequent" acknowledgements, such as the source can free out memory of received frames earlier. However, this uses more capacity for sending ACKs, and could be problematic in cases of very high link bandwidth or network path capacity asymmetry.</t>
+	<t>Adjusted ACK frequency information is provided to a QUIC peer through an in-band signal in a QUIC ACK_FREQUENCY frame extension to the QUIC base specification.  Usage needs to be negotiated via transport parameters on connection establishment, and desired values need to be provided (e.g. directly by an application or supplied to the stack via a management system).  The max_ack_delay and ack_delay_exponent transport parameters are specified in section 8.2 of <xref target="RFC9000"/>, and requested max_ack_delay changes are provided in ACK_FREQUENCY frames.</t>
+	<t>The optimal ACK frequency is related to the bandwidth asymmetry between the directions of data and acknowledgement flow.  This may vary over time, but also can be known in advance by a route orchestrator or other management system.  In order to optimize performance, ACK frequency may be exposed as a dynamically controlled or time-varying parameter.</t>
+
     </section>
     <section>
         <name>Packet Size and Sending Pace</name>
