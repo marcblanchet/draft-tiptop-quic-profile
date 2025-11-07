@@ -117,7 +117,10 @@
     </section>
     <section>
         <name>Path MTU discovery</name>
-        <t>To find the optimum MTU, some QUIC stacks implement Path MTU discovery<xref target="RFC8899"/>, which sends bigger packets every time until it discovers the maximum MTU, which may involve packet loss. Given that in deep space, all links MTU of the paths are known in advance and that probing is less optimal, the application developer may elect to disable the path MTU discovery mechanism and set the real path MTU on connection establishment of the application.</t>
+	<t>To find the optimum MTU, some QUIC stacks implement Path MTU discovery<xref target="RFC8899"/>, which sends bigger packets every time until it discovers the maximum MTU, which may involve packet loss. Given that in deep space, MTUs for all links on the paths may be known in advance and that probing is inefficient and not timely, the application developer may elect to disable the path MTU discovery mechanism and set the real path MTU on connection establishment of the application.</t>
+	<t>For instance, a 1280 byte path MTU might be assumed, based on knowledge of the network design and assurance from network providers that this would be supported without fragmentation, after accouting for any encapsulations present on the scheduled paths.</t>
+	<t>Given coordination between the small number of network operators involved in an end-to-end path, support for large MTUs might be coordinated and known in advance.  This could be desirable for efficiency, but is out of scope of this document.</t>
+	<t>Since scheduled paths may change over time, to enable use a known optimal value at any time, the path MTU can also be exposed by an implementation as a dynamically managed parameter, set according to a schedule.</t>
     </section>
     <section>
         <name>Acknowledgement Frequency</name>
@@ -190,7 +193,7 @@
     </references>
     <section anchor="Acknowledgements" numbered="false">
       <name>Acknowledgements</name>
-      <t>This document and its underlying work has been reviewed and discussed by many, who have provided valuable feedback and comments, including disagreements, and made an overall more solid document. These people are, in no specific order: Lars Eggert, Christian Huitema, Adolfo Ochagavia, Mirja Kuehlewind.</t>
+      <t>This document and its underlying work has been reviewed and discussed by many, who have provided valuable feedback and comments, including disagreements, and made an overall more solid document. These people are, in no specific order: Lars Eggert, Christian Huitema, Adolfo Ochagavia, Mirja Kuehlewind, Michael Richardson.</t>
       <t>The Quinn QUIC stack was used for testing. We would like to acknowledge the help of Benjamin Saunders and Adolfo Ochagavia in using Quinn.</t>
     </section>
   </back>
