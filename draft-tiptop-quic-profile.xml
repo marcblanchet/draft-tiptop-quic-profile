@@ -76,18 +76,22 @@
         <t>A QUIC stack like any transport stack manages the pacing of sending packets from the source to avoid overloading the network, creating congestion and to avoid overloading the other peer.</t>
         <t>A space application designer should calculate the bandwidth-delay product(BDP) of the whole path for its mission. The minimum BDP should be calculated with the minimum RTT and the minimum bandwidth used during those times. The maximum BDP should be calculated with the maximum RTT and the maximum bandwidth.</t>
     </section>
-    <section>
-        <name>Initial RTT</name>
-        <t>To prime the QUIC stack with the expected RTT of the mission, an application should set the Initial RTT on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
-        <t>If the set RTT is too low, then retransmission will be sent before the actual acknowledgement was received. In this case, the QUIC stack will still converge and deliver reliable data, but at the expense of extra bandwidth used. If the set RTT is too high, then when a packet is lost, the retransmission will be started later than the optimal time, therefore the total time to transmit all the data, including the losses recovered, will be longer than if it was set properly, but the QUIC stack will still converge and deliver reliable data.</t>
-        <t>The initial_rtt transport parameter is specified in <xref target="RFC9002"/>.</t>
-        <t>An application may use the resume mechanism as described in <xref target="careful-resume"/> to update the RTT during the connection lifetime.</t>
-    </section>
-    <section>
-        <name>Idle Timeout</name>
-        <t>To avoid the QUIC stack to terminate a connection due to no activity from the other peer, an application should set the Idle Timeout on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
-        <t>If the set RTT is too low, then the other peer may terminate the connection before all the data is received. In this case, the QUIC stack on the sender side will need to reestablish the connection, possibly using the 0RTT mechanism, and resend the data that was not acknowledged previously. In this case, the application shall still recover and provide full data reliability but at the expense of more total time and extra bandwidth used. If the set RTT is too high, then the other peer will close its side of the connection later than needed in the event of a lost connection. In this case, the resources used by keeping the connection, such as memory, will not be released as fast as it could be if the RTT was properly set.</t>
-        <t>The max_idle_timeout transport parameter is specified in section 8.2 of <xref target="RFC9000"/>.</t>
+    <section anchor="transport_parameters">
+        <name>Transport Parameters</name>
+        <t>This section discusses how to configure some QUIC transport parameters. The parameter names are from the IANA registry<xref target="iana_quic_transport"/>.</t>
+        <section>
+            <name>Initial RTT</name>
+            <t>To prime the QUIC stack with the expected RTT of the mission, an application should set the Initial RTT on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
+            <t>If the set RTT is too low, then retransmission will be sent before the actual acknowledgement was received. In this case, the QUIC stack will still converge and deliver reliable data, but at the expense of extra bandwidth used. If the set RTT is too high, then when a packet is lost, the retransmission will be started later than the optimal time, therefore the total time to transmit all the data, including the losses recovered, will be longer than if it was set properly, but the QUIC stack will still converge and deliver reliable data.</t>
+            <t>The initial_rtt transport parameter is specified in <xref target="RFC9002"/>.</t>
+            <t>An application may use the resume mechanism as described in <xref target="careful-resume"/> to update the RTT during the connection lifetime.</t>
+        </section>
+        <section>
+            <name>Idle Timeout</name>
+            <t>To avoid the QUIC stack to terminate a connection due to no activity from the other peer, an application should set the Idle Timeout on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
+            <t>If the set RTT is too low, then the other peer may terminate the connection before all the data is received. In this case, the QUIC stack on the sender side will need to reestablish the connection, possibly using the 0RTT mechanism, and resend the data that was not acknowledged previously. In this case, the application shall still recover and provide full data reliability but at the expense of more total time and extra bandwidth used. If the set RTT is too high, then the other peer will close its side of the connection later than needed in the event of a lost connection. In this case, the resources used by keeping the connection, such as memory, will not be released as fast as it could be if the RTT was properly set.</t>
+            <t>The max_idle_timeout transport parameter is specified in section 8.2 of <xref target="RFC9000"/>.</t>
+        </section>
     </section>
     <section>
         <name>Congestion Control</name>
@@ -187,6 +191,15 @@
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-quic-ack-frequency.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tiptop-usecase.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.many-tiptop-ip-architecture.xml"/>
+        <reference anchor="iana_quic_transport" target="https://www.iana.org/assignments/quic/quic.xhtml#quic-transport">
+            <front>
+              <title>QUIC Transport Parameters</title>
+              <author>
+                <organization>Internet Assigned Numbers Authority(IANA)</organization>
+              </author>
+              <date year="2025" month="September"/>
+            </front>
+        </reference>
       </references>
     </references>
     <section anchor="Acknowledgements" numbered="false">
