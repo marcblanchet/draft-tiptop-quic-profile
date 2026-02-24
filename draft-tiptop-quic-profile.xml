@@ -49,7 +49,7 @@
       <t>Deep space communications involve long delays, such as Earth to Mars is 4-20 minutes, and intermittent communications, because of orbital dynamics, such as when an orbiter is passing over a rover every 6 hours for a duration of 15 minutes.</t>
       <t>Typical QUIC stacks default transport parameters for terrestrial Internet assume low latency such as 100-200 ms, and relative continuous connectivity. Therefore, parameters such as initial_rtt, maximum_idle_timeout have defaults typically not suitable for deep space.</t>
       <t>Space missions are scheduled in advance and parameters such as the maximum round-trip time or bandwidth are known and determined in advance. Given relative low bandwidth in space and the intermittent communications, bandwidth usage is very precious and therefore any unneeded communication should be minimized as much as possible. Further discussion on use cases and requirements for deep space IP is discussed in <xref target="I-D.ietf-tiptop-usecase"/>.</t>
-      <t>As described in <xref target="I-D.many-tiptop-ip-architecture"/>, Packets will be stored at either layer 2 or layer 3 by orbiters during the periods where connectivity to the next hop is not possible.</t>
+      <t>As described in <xref target="I-D.many-tiptop-ip-architecture"/>, packets will be stored at either layer 2 or layer 3 by orbiters during the periods where connectivity to the next hop is not possible.</t>
       <section anchor="example">
           <name>Example Scenario</name>
           <t>To better illustrate the implication on various transport parameters, an example scenario is provided in this section.</t>
