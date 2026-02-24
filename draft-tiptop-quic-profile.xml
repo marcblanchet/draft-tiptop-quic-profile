@@ -161,6 +161,10 @@
         <name>Intermittence Aware</name>
         <t>Another way to solve the generic problem is to make transport aware of the intermittence periods, so that when there is a direct path end-to-end without any intermittence, the normal QUIC behavior such as congestion control may be used with proper RTT configuration, and then a different behavior in the context of intermittence. However, the actual scheduling of communication windows is pretty complicated and have a lot of variations that an intermittence-aware transport will be very fragile.</t>
     </section>
+    <section anchor="application_consideration">
+        <name>Application Considerations</name>
+        <t>On terrestrial Internet, the cost, by time or bandwidth, to re-establish a connection to the same peer is very low, since it is re-established very fast and without too much use of bandwidth. Therefore, often, applications are designed in a pattern of establishing a connection, sending a query, getting the response, closing the connection and redoing the whole process for the next query. In deep space, the cost, specially the delay, of re-establishing a connection is very high. Therefore, applications should be carefully designed to not close connections after a query-response, if there is a possible new queries in the future.</t>
+    </section>
     <section anchor="IANA">
       <name>IANA Considerations</name>
       <t>This memo includes no request to IANA.</t>
