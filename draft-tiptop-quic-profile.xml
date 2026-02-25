@@ -144,14 +144,6 @@
         <name>FEC</name>
         <t>CCSDS deep space links uses FEC at layer 2 (TODO: add ref to CCSDS book), using a pipeline of codecs, enabling low frame error rate in the presence of a higher signal bit error rate. While FEC for QUIC has been defined <xref target="I-D.michel-quic-fec"/>, it remains to be seen if it is really needed for deep space.</t>
     </section>
-    <section anchor="careful-resume">
-        <name>Careful Resume</name>
-        <t>TBD. <xref target="I-D.ietf-tsvwg-careful-resume"/></t>
-    </section>
-    <section>
-        <name>QUIC Proxies and Deployment Models</name>
-        <t>TBD. proxies at space edge</t>
-    </section>
     <section anchor="moon">
       <name>Moon Deployment Considerations</name>
       <t>Earth to Moon is just a few light seconds away. When the whole path is all line of sight, it is possible to use QUIC stacks as configured today, but it will take more time to converge, therefore less optimal. The BBR algorithm will be a better choice as it is based on delay to measure congestion.</t>
