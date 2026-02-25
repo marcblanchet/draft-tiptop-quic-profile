@@ -163,7 +163,9 @@
     </section>
     <section anchor="Security">
       <name>Security Considerations</name>
-      <t>TBD</t>
+      <t>The use of 0-RTT is subject to replay attacks<xref target="RFC9001"/> and therefore should be considered to be disabled depending on the security policy of the mission.</t>
+      <t>Certificates and keys need to be renewed before their expiration, taking into account the delay to send, receive and confirm. Protocols such as OCSP<xref target="RFC6960"/> providing on-line real-time validation and revocation check will likely not work given the too long delays, therefore certificates need to be validated using local trust anchors.</t>
+      <t>The use of long term keys, such as ones set prior to launch, may create exposure, therefore keys should be renewed at appropriate frequency.</t>
     </section>
   </middle>
   <back>
@@ -177,6 +179,7 @@
       <references>
         <name>Informative References</name>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.3168.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.6960.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8087.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8311.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8899.xml"/>
