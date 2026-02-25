@@ -84,7 +84,7 @@
             <t>To prime the QUIC stack with the expected RTT of the mission, an application should set the Initial RTT on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
             <t>If the set RTT is too low, then retransmission will be sent before the actual acknowledgement was received. In this case, the QUIC stack will still converge and deliver reliable data, but at the expense of extra bandwidth used. If the set RTT is too high, then when a packet is lost, the retransmission will be started later than the optimal time, therefore the total time to transmit all the data, including the losses recovered, will be longer than if it was set properly, but the QUIC stack will still converge and deliver reliable data.</t>
             <t>The initial_rtt transport parameter is specified in <xref target="RFC9002"/>.</t>
-            <t>An application may use the resume mechanism as described in <xref target="careful-resume"/> to update the RTT during the connection lifetime.</t>
+            <t>An application may use the resume mechanism as described in <xref target="I-D.ietf-tsvwg-careful-resume"/> to update the RTT during the connection lifetime.</t>
         </section>
         <section>
             <name>Idle Timeout</name>
@@ -184,6 +184,7 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8311.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.8899.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9000.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9001.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9002.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.michel-quic-fec.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-careful-resume.xml"/>
