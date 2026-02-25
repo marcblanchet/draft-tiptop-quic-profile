@@ -8,10 +8,10 @@
 <!ENTITY nbhy "&#8209;">
 <!ENTITY wj "&#8288;">
 ]>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-many-tiptop-quic-profile-01" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-many-tiptop-quic-profile-02" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" version="3">
   <front>
     <title>QUIC Profile for Deep Space</title>
-    <seriesInfo name="Internet-Draft" value="draft-many-tiptop-quic-profile-01"/>
+    <seriesInfo name="Internet-Draft" value="draft-many-tiptop-quic-profile-02"/>
     <author fullname="Marc Blanchet" initials="MB">
       <organization>Viagenie</organization>
       <address>
