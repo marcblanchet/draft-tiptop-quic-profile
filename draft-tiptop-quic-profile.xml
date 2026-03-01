@@ -150,7 +150,7 @@
       <t>However, if one wants to consider orbiters that will have intermittent communications, then the scenario discussed in <xref target="example"/> also applies and calculating RTT and BDP as discussed previously apply.</t>
     </section>
     <section anchor="intermittence_aware">
-        <name>Intermittence Aware</name>
+        <name>Intermittence Awareness</name>
         <t>Another way to solve the generic problem is to make transport aware of the intermittence periods, so that when there is a direct path end-to-end without any intermittence, the normal QUIC behavior such as congestion control may be used with proper RTT configuration, and then a different behavior in the context of intermittence. However, the actual scheduling of communication windows is pretty complicated and have a lot of variations that an intermittence-aware transport will be very fragile.</t>
     </section>
     <section anchor="application_consideration">
