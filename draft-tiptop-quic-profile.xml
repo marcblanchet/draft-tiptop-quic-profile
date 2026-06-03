@@ -4,14 +4,13 @@
 <!DOCTYPE rfc [
 <!ENTITY nbsp "&#160;">
 <!ENTITY zwsp "&#8203;">
-<!ENTITY zwsp "&#8203;">
 <!ENTITY nbhy "&#8209;">
 <!ENTITY wj "&#8288;">
 ]>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-many-tiptop-quic-profile-02" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-many-tiptop-quic-profile-03" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" version="3">
   <front>
     <title>QUIC Profile for Deep Space</title>
-    <seriesInfo name="Internet-Draft" value="draft-many-tiptop-quic-profile-02"/>
+    <seriesInfo name="Internet-Draft" value="draft-many-tiptop-quic-profile-03"/>
     <author fullname="Marc Blanchet" initials="MB">
       <organization>Viagenie</organization>
       <address>
@@ -22,13 +21,13 @@
       </address>
     </author>
     <author fullname="Wesley M. Eddy" initials="WE">
-        <organization>Aalyria Technologies</organization>
-        <address>
-          <postal>
-            <country>USA</country>
-          </postal>
-          <email>wes@aalyria.com</email>
-        </address>
+      <organization>Aalyria Technologies</organization>
+      <address>
+        <postal>
+          <country>USA</country>
+        </postal>
+        <email>wes@aalyria.com</email>
+      </address>
     </author>
     <area>Internet</area>
     <workgroup>Internet Engineering Task Force</workgroup>
@@ -49,11 +48,12 @@
       <t>Deep space communications involve long delays, such as Earth to Mars is 4-20 minutes, and intermittent communications, because of orbital dynamics, such as when an orbiter is passing over a rover every 6 hours for a duration of 15 minutes.</t>
       <t>Typical QUIC stacks default transport parameters for terrestrial Internet assume low latency such as 100-200 ms, and relative continuous connectivity. Therefore, parameters such as initial_rtt, maximum_idle_timeout have defaults typically not suitable for deep space.</t>
       <t>Space missions are scheduled in advance and parameters such as the maximum round-trip time or bandwidth are known and determined in advance. Given relative low bandwidth in space and the intermittent communications, bandwidth usage is very precious and therefore any unneeded communication should be minimized as much as possible. Further discussion on use cases and requirements for deep space IP is discussed in <xref target="I-D.ietf-tiptop-usecase"/>.</t>
-      <t>As described in <xref target="I-D.many-tiptop-ip-architecture"/>, packets will be stored at either layer 2 or layer 3 by orbiters during the periods where connectivity to the next hop is not possible.</t>
+      <t>As described in <xref target="I-D.ietf-tiptop-ip-architecture"/>, packets may be stored at either layer 2 or layer 3 by orbiters during the periods where connectivity to the next hop is not possible.</t>
       <section anchor="example">
-          <name>Example Scenario</name>
-          <t>To better illustrate the implication on various transport parameters, an example scenario is provided in this section.</t>
-          <t>A rover on the Mars surface is connected to a Mars surface IP network which receives intermittent connectivity from a few orbiters with an average of 6 hours per orbit. Some of those orbiters have circular orbits, other elleptical. The latter means that the overpass are not at a fixed frequency. The orbiters are connected to Earth ground station while they are in line of sight with Earth. Earth and Mars have variable distance from 4 to 20 minutes light seconds. That one way delay however change "slowly" as the planets are orbiting around the Sun.</t>
+        <name>Example Scenarios</name>
+        <t>To better illustrate the implication on various transport parameters, example scenarios are provided in this section.</t>
+        <t>A. Many rovers, drones, habitats  on the Moon surface are connected to a 3GPP 6G network provided by a constellation of low Moon orbit satellites, connected together with Optical Inter-Satellite Links(OISL). At any single point in time, one or many of these satellites are communicating with Earth. This scenario correspond to full connectivity on Moon and between Moon and Earth. This scenario is the end goal for both Moon and Mars.</t>
+        <t>B. A rover on the Mars surface is connected to a Mars surface IP network which receives intermittent connectivity from a few orbiters with an average of 6 hours per orbit. Some of those orbiters have circular orbits, other elleptical. The latter means that the overpass are not at a fixed frequency. The orbiters are connected to Earth ground station while they are in line of sight with Earth. Earth and Mars have variable distance from 4 to 20 minutes light seconds. That one way delay however change "slowly" as the planets are orbiting around the Sun.</t>
       </section>
       <section anchor="requirements">
         <name>Requirements Language</name>
@@ -66,83 +66,85 @@
       </section>
     </section>
     <section anchor="calculate_rtt">
-        <name>RTT Calculation</name>
-        <t>A QUIC stack estimates the round-trip time(RTT) between the two peers over the period of the connection. This is used for example to initiate the retransmission of packets when the acknowledgement of those packets is not received within the expected RTT. Using the example in <xref target="example"/>, it is necessary to prime the QUIC stack with the right initial values, to avoid, for example, to retransmit packets after 100 ms while the expected RTT is 2 hours.</t>
-        <t>A space application designer should calculate the maximum RTT for its mission. Using the example in <xref target="example"/>, the maximum RTT due to the maximum two-way delay is 45 minutes and the one due to the overpass frequency is 6 hours, therefore the maximum RTT is 6 hours 45 minutes.</t>
-        <t>A space application designer should calculate the minimum RTT for its mission. Using the example in <xref target="example"/>, the minimum RTT due to the minimum two-way delay is 8 minutes and the one due to the overpass frequency is 0 assuming direct line of sight for the whole path, therefore the minimum RTT is 8 minutes.</t>
+      <name>RTT Calculation</name>
+      <t>A QUIC stack continously estimates the round-trip time(RTT) between the two peers over the period of the connection. This is used for example to initiate the retransmission of packets when the acknowledgement of those packets is not received within the expected RTT. Using the example in <xref target="example"/>, it is necessary to prime the QUIC stack with the right initial values, to avoid, for example, to retransmit packets after 100 ms while the expected RTT is 2 hours.</t>
+      <t>A space application designer should calculate the maximum RTT for its mission. Using the example in <xref target="example"/>, the maximum RTT due to the maximum two-way delay is 45 minutes and the one due to the overpass frequency is 6 hours, therefore the maximum RTT is 6 hours 45 minutes.</t>
+      <t>A space application designer should calculate the minimum RTT for its mission. Using the example in <xref target="example"/>, the minimum RTT due to the minimum two-way delay is 8 minutes and the one due to the overpass frequency is 0 assuming direct line of sight for the whole path, therefore the minimum RTT is 8 minutes.</t>
     </section>
     <section anchor="calculate_bdp">
-        <name>Bandwidth-Delay Product(BDP) Calculation</name>
-        <t>A QUIC stack like any transport stack manages the pacing of sending packets from the source to avoid overloading the network, creating congestion and to avoid overloading the other peer.</t>
-        <t>A space application designer should calculate the bandwidth-delay product(BDP) of the whole path for its mission. The minimum BDP should be calculated with the minimum RTT and the minimum bandwidth used during those times. The maximum BDP should be calculated with the maximum RTT and the maximum bandwidth.</t>
+      <name>Bandwidth-Delay Product(BDP) Calculation</name>
+      <t>A QUIC stack like any transport stack manages the pacing of sending packets from the source to avoid overloading the network, creating congestion and to avoid overloading the other peer.</t>
+      <t>A space application designer should calculate the bandwidth-delay product(BDP) of the whole path for its mission. The minimum BDP should be calculated with the minimum RTT and the minimum bandwidth used during those times. The maximum BDP should be calculated with the maximum RTT and the maximum bandwidth.</t>
     </section>
     <section anchor="transport_parameters">
-        <name>Transport Parameters</name>
-        <t>This section discusses how to configure some QUIC transport parameters. The parameter names are from the IANA registry<xref target="iana_quic_transport"/>.</t>
-        <section>
-            <name>Initial RTT</name>
-            <t>To prime the QUIC stack with the expected RTT of the mission, an application should set the Initial RTT on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
-            <t>If the set RTT is too low, then retransmission will be sent before the actual acknowledgement was received. In this case, the QUIC stack will still converge and deliver reliable data, but at the expense of extra bandwidth used. If the set RTT is too high, then when a packet is lost, the retransmission will be started later than the optimal time, therefore the total time to transmit all the data, including the losses recovered, will be longer than if it was set properly, but the QUIC stack will still converge and deliver reliable data.</t>
-            <t>The initial_rtt transport parameter is specified in <xref target="RFC9002"/>.</t>
-            <t>An application may use the resume mechanism as described in <xref target="I-D.ietf-tsvwg-careful-resume"/> to update the RTT during the connection lifetime.</t>
-        </section>
-        <section>
-            <name>Idle Timeout</name>
-            <t>To avoid the QUIC stack to terminate a connection due to no activity from the other peer, an application should set the Idle Timeout on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
-            <t>If the set RTT is too low, then the other peer may terminate the connection before all the data is received. In this case, the QUIC stack on the sender side will need to reestablish the connection, possibly using the 0RTT mechanism, and resend the data that was not acknowledged previously. In this case, the application shall still recover and provide full data reliability but at the expense of more total time and extra bandwidth used. If the set RTT is too high, then the other peer will close its side of the connection later than needed in the event of a lost connection. In this case, the resources used by keeping the connection, such as memory, will not be released as fast as it could be if the RTT was properly set.</t>
-            <t>The max_idle_timeout transport parameter is specified in section 8.2 of <xref target="RFC9000"/>.</t>
-        </section>
+      <name>Transport Parameters</name>
+      <t>This section discusses how to configure some QUIC transport parameters. The parameter names are from the IANA registry<xref target="iana_quic_transport"/>.</t>
+      <section anchor="initial_rtt">
+        <name>Initial RTT</name>
+        <t>To prime the QUIC stack with the expected RTT of the mission, an application should set the Initial RTT on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
+        <t>If the set initial RTT is too low, then retransmission of the initial packet will be sent before the acknowledgement is received, therefore extra bandwidth will be used. If the actual one-way delay is long enough, such as for communicating to Mars, then not only retransmissions will occur, but the connection will be closed by the client before the acknowledgement is received, therefore, no QUIC connection is possible. In long one-way delay scenarios, setting the initial_rtt properly is mandatory. Simulations show<xref target="deepspaceSimulations"/><xref target="johannes_frisch"/> that with a one-way delay of 15 seconds or more and a default initial RTT of 333 ms, the initial RTT MUST be set for the connection to not timeout during the establishment period.</t>
+        <t> If the set initial RTT is too high, then when a packet is lost, the retransmission will be started later than the optimal time, therefore the total time to transmit all the data, including the losses recovered, will be longer than if it was set properly, but the QUIC stack will still converge and deliver reliable data. As the initial RTT is only used to prime the RTT at the beginning of the connection, the real measured RTT will replace the too high initial RTT used initially.</t>
+        <t>The initial_rtt transport parameter is specified in <xref target="RFC9002"/>.</t>
+      </section>
+      <section anchor="max_idle_timeout">
+        <name>Idle Timeout, Keep Alive and MiddleBoxes</name>
+        <t>To avoid the QUIC stack to terminate a connection due to no activity from the other peer, an application should set the Idle Timeout on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
+        <t>If the set RTT is too low, then the other peer may terminate the connection before all the data is received. In this case, the QUIC stack on the sender side will need to reestablish the connection, possibly using the 0RTT mechanism, and resend the data that was not acknowledged previously. In this case, the application shall still recover and provide full data reliability but at the expense of more total time and extra bandwidth used. If the set RTT is too high, then the other peer will close its side of the connection later than needed in the event of a lost connection. In this case, the resources used by keeping the connection, such as memory, will not be released as fast as it could be if the RTT was properly set.</t>
+        <t>The effective idle timeout is the minimum of the max_idle_timeout of both peers, therefore careful configuration should be done on both peers.</t>
+        <t>The max_idle_timeout transport parameter is specified in section 8.2 of <xref target="RFC9000"/>.</t>
+        <t>As discussed in section 10.1 of <xref target="RFC9000"/>, a peer can send PING frames as connection keep alives in time, including delay and intermittence, before the max_idle_timeout is triggered. For example, some QUIC stacks<xref target="quinn_keepalive"/> may be configured for a keep alive interval. On the terrestrial Internet, this is particularly useful to avoid middleboxes to timeout the UDP mapping too early, which typically is 30 seconds. However, in deep space given long delays and disruptions, such small middlebox timeouts will effectively disable connections to succeed. Therefore, middleboxes are not recommended in deep space or if used, should be properly configured for much larger timeouts. </t>
+        <t/>
+      </section>
+    </section>
+    <section anchor="congestion_control">
+      <name>Congestion Control</name>
+      <t>In the Internet stack, congestion control (CC) in transport protocols is crucial to sharing network resources among concurrent traffic flows.  Minimizing congestion is necessary in order to prevent unnecessary queueing latency and packet drops.  Problems with typical Internet congestion control algorithms in deep space settings can include: (1) assumptions of timely in-band feedback/information, (2) interpretation of large delays as congestion/loss, and (3) lack of knowledge about overall network state and management decisions.</t>
+      <t>Internet transport protocols use estimates of loss events, round-trip latency, and Explicit Congestion Notification (ECN) <xref target="RFC3168"/><xref target="RFC8087"/><xref target="RFC8311"/> to sense connection.  All of these methods operate in a "closed loop" fashion on the scale of RTTs, in order to react responsively in normal Internet conditions.  When the RTTs are many minutes or more in some deep space scenarios, this is not effective in quickly detecting and reacting to congestion.  Instead of relying on in-band closed loop detection and response to congestion, deep space congestion control could be assisted by management/control plane information, as deep space access, networking, and mission operations are substantially coordinated, in contrast to normal Internet access.</t>
+      <t><xref target="I-D.ietf-tiptop-ip-architecture"/> discusses that given intermittent connectivity in deep space, nodes may need to temporarily store either L2 frames or L3 packets when links are down until the link is up again. This behavior will be interpreted by various CC algorithms as congestion. However, this is not necessarily the right behavior, since the delays generated are due to waiting for a lower-layer transmisison opportunity, but not necessarily lack of capacity when it becomes available to transmit.</t>
+      <t>Deep space networking differs from traditional Internet use, because it is highly coordinated.  Antennas must be pointed and track physically, and operations centers must work together between agencies/companies/etc in order to manage resources (including spectrum usage, physical systems, compute and storage, etc.) and orchestrate configurations and activities over time.  Planning and scheduling is a significant activity, and results in the abilitly to understand traffic flow needs and allocate capacity for application flows, unlike in the traditional Internet.</t>
+      <t>Other space-oriented transport protocols, such as SCPS-TP, have included rate-based open loop congestion control algorithms.  These algorithms send at pre-determined rates, without necessarily requiring in-band feedback, with the rate information over time provided by variables managed through an external scheduling system or other means.</t>
+      <t>Therefore, QUIC stacks for deep space should be configurable to use rate-based open-loop congestion control, that allows relevant configuration variables such as window, pacing rate, expected RTT, and others to be governed by schedule-driven management/control plane cues, rather than closed loop in-band probing/estimation.</t>
+      <section>
+        <name>Window Size</name>
+        <t>A QUIC stack manages the pacing of the source by the window size. A typical value used for Internet is 2 times the BDP. In space, careful considerations must be taken. A too low BDP means that the source node may not be sending enough packets to completly use the network and the available bandwidth of the links, which is less optimal given the scarcity of communications in space. Therefore, an application should not use a BDP lower than the minimum BDP as calculated in <xref target="calculate_bdp"/>. A too large BDP may use too much of the bandwidth of the links.</t>
+        <t>Since packets may be stored at either layer 2 or layer 3 by intermediate nodes, the maximum storage of in-flight packets in these intermediary nodes is to be considered. Therefore, space operations should properly identify the best window size based on the minimum and maximum BDP and storage size of the intermediary nodes for the mission/application. As those parameters are known in advance for a mission, these can be set appropriately on connection establishment by the application.</t>
+      </section>
     </section>
     <section>
-        <name>Congestion Control</name>
-	<t>In the Internet stack, congestion control (CC) in transport protocols is crucial to sharing network resources among concurrent traffic flows.  Minimizing congestion is necessary in order to prevent unnecessary queueing latency and packet drops.  Problems with typical Internet congestion control algorithms in deep space settings can include: (1) assumptions of timely in-band feedback/information, (2) interpretation of large delays as congestion/loss, and (3) lack of knowledge about overall network state and management decisions.</t>
-	<t>Internet transport protocols use estimates of loss events, round-trip latency, and Explicit Congestion Notification (ECN) <xref target="RFC3168"/><xref target="RFC8087"/><xref target="RFC8311"/> to sense connection.  All of these methods operate in a "closed loop" fashion on the scale of RTTs, in order to react responsively in normal Internet conditions.  When the RTTs are many minutes or more in some deep space scenarios, this is not effective in quickly detecting and reacting to congestion.  Instead of relying on in-band closed loop detection and response to congestion, deep space congestion control could be assisted by management/control plane information, as deep space access, networking, and mission operations are substantially coordinated, in contrast to normal Internet access.</t>
-	<t><xref target="I-D.many-tiptop-ip-architecture"/> discusses that given intermittent connectivity in deep space, nodes may need to temporarily store either L2 frames or L3 packets when links are down until the link is up again. This behavior will be interpreted by various CC algorithms as congestion. However, this is not necessarily the right behavior, since the delays generated are due to waiting for a lower-layer transmisison opportunity, but not necessarily lack of capacity when it becomes available to transmit.</t>
-	<t>Deep space networking differs from traditional Internet use, because it is highly coordinated.  Antennas must be pointed and track physically, and operations centers must work together between agencies/companies/etc in order to manage resources (including spectrum usage, physical systems, compute and storage, etc.) and orchestrate configurations and activities over time.  Planning and scheduling is a significant activity, and results in the abilitly to understand traffic flow needs and allocate capacity for application flows, unlike in the traditional Internet.</t>
-	<t>Other space-oriented transport protocols, such as SCPS-TP, have included rate-based open loop congestion control algorithms.  These algorithms send at pre-determined rates, without necessarily requiring in-band feedback, with the rate information over time provided by variables managed through an external scheduling system or other means.</t>
-	<t>Therefore, QUIC stacks for deep space should be configurable to use rate-based open-loop congestion control, that allows relevant configuration variables such as window, pacing rate, expected RTT, and others to be governed by schedule-driven management/control plane cues, rather than closed loop in-band probing/estimation.</t>
-        <section>
-            <name>Window Size</name>
-            <t>A QUIC stack manages the pacing of the source by the window size. A typical value used for Internet is 2 times the BDP. In space, careful considerations must be taken. A too low BDP means that the source node may not be sending enough packets to completly use the network and the available bandwidth of the links, which is less optimal given the scarcity of communications in space. Therefore, an application should not use a BDP lower than the minimum BDP as calculated in <xref target="calculate_bdp"/>. A too large BDP may use too much of the bandwidth of the links.</t>
-            <t>Since packets may be stored at either layer 2 or layer 3 by intermediate nodes, the maximum storage of in-flight packets in these intermediary nodes is to be considered. Therefore, space operations should properly identify the best window size based on the minimum and maximum BDP and storage size of the intermediary nodes for the mission/application. As those parameters are known in advance for a mission, these can be set appropriately on connection establishment by the application.</t>
-        </section>
+      <name>Flow Control</name>
+      <t>A receiver can tell the source how much data it is willing to accept by sending the Max Data parameters. As discussed above for window size, a too low value would not fully use the bandwidth of the network. </t>
+      <section>
+        <name>Max Data</name>
+        <t>initial_max_data is the maximum number of bytes that can be sent on a connection <xref target="RFC9000"/>. initial_max_stream_data is similar but per stream. Given the BDP of a typical deep space connection, applications should set these parameters to enough large values so that the source is capable of sending data while the bandwidth is available.</t>
+        <t>The various initial_max_data transport parameters are specified in section 8.2 of <xref target="RFC9000"/>.</t>
+      </section>
     </section>
     <section>
-        <name>Flow Control</name>
-        <t></t>
-        <section>
-            <name>Max Data</name>
-            <t>initial_max_data is the maximum number of bytes that can be sent on a connection <xref target="RFC9000"/>. initial_max_stream_data is similar but per stream. Given the BDP of a typical deep space connection, applications should set these parameters to enough large values so that the source is capable of sending data while the bandwidth is available.</t>
-            <t>The various initial_max_data transport parameters are specified in section 8.2 of <xref target="RFC9000"/>.</t>
-        </section>
+      <name>Path MTU discovery</name>
+      <t>To find the optimum MTU, some QUIC stacks implement Path MTU discovery<xref target="RFC8899"/>, by sending incrementaly bigger packets every time until the maximum MTU is found, which involves packet loss when reached. Given that in deep space, MTUs for all links on the paths are typically known in advance and that probing is inefficient and not timely in this context, the application developer may elect to disable the path MTU discovery mechanism and set the real path MTU on connection establishment of the application.</t>
+      <t>For instance, a 1280 byte path MTU might be assumed, based on knowledge of the network design and assurance from network providers that this would be supported without fragmentation, after accounting for any encapsulation present on the scheduled paths.</t>
+      <t>Given coordination between the small number of network operators involved in an end-to-end path, support for large MTUs might be coordinated and known in advance.  This could be desirable for efficiency, but is out of scope of this document.</t>
+      <t>Since scheduled paths may change over time, to enable use a known optimal value at any time, the path MTU can also be exposed by an implementation as a dynamically managed parameter, set according to a schedule.</t>
     </section>
     <section>
-        <name>Path MTU discovery</name>
-	<t>To find the optimum MTU, some QUIC stacks implement Path MTU discovery<xref target="RFC8899"/>, which sends bigger packets every time until it discovers the maximum MTU, which may involve packet loss. Given that in deep space, MTUs for all links on the paths may be known in advance and that probing is inefficient and not timely, the application developer may elect to disable the path MTU discovery mechanism and set the real path MTU on connection establishment of the application.</t>
-	<t>For instance, a 1280 byte path MTU might be assumed, based on knowledge of the network design and assurance from network providers that this would be supported without fragmentation, after accounting for any encapsulation present on the scheduled paths.</t>
-	<t>Given coordination between the small number of network operators involved in an end-to-end path, support for large MTUs might be coordinated and known in advance.  This could be desirable for efficiency, but is out of scope of this document.</t>
-	<t>Since scheduled paths may change over time, to enable use a known optimal value at any time, the path MTU can also be exposed by an implementation as a dynamically managed parameter, set according to a schedule.</t>
+      <name>Acknowledgement Frequency</name>
+      <t>QUIC stacks have various mechanisms to trigger acknowledgements (ACKs), as described in <xref target="RFC9000"/>, <xref target="I-D.ietf-quic-ack-frequency"/>. There are advantages of sending "frequent" acknowledgements, such as the source can free out memory of received frames earlier. However, this uses more capacity for sending ACKs, and could be problematic in cases of very low link bandwidth or network path capacity asymmetry. The last case was tested and is discussed in <xref target="johannes_frisch"/>.</t>
+      <t>Adjusted ACK frequency information is provided to a QUIC peer through an in-band signal in a QUIC ACK_FREQUENCY frame extension to the QUIC base specification.  Usage needs to be negotiated via transport parameters on connection establishment, and desired values need to be provided (e.g. directly by an application or supplied to the stack via a management system).  The max_ack_delay and ack_delay_exponent transport parameters are specified in section 8.2 of <xref target="RFC9000"/>, and requested max_ack_delay changes are provided in ACK_FREQUENCY frames.</t>
+      <t>The optimal ACK frequency is related to the bandwidth asymmetry between the directions of data and acknowledgement flow.  This may vary over time, but also can be known in advance by a route orchestrator or other management system.  In order to optimize performance, ACK frequency may be exposed as a dynamically controlled or time-varying parameter.</t>
+    </section>
+    <section anchor="packetsize">
+      <name>Packet Size and Sending Pace</name>
+      <t>There are pros and cons of sending large packets. Sending smaller packets means using more bandwidth because of multiple headers, unless header compression is used, but decreases the probability of packet loss which in space should be minimized. Sending larger packets means more efficient use of bandwidth, but in front of significant packet loss, may in fact result in using more bandwidth than smaller packets, since they will have to be re-transmitted.</t>
+      <t>In the context of Internet, QUIC stacks may elect to not wait much time in order to add more frames in a single packets to deliver faster to the receiving end point.</t>
+      <t>For deep space applications, where time for transmission is many orders of magnitude longer than on Internet, a QUIC stack may be configured to wait "a bit more" to add more frames to a single packet. For example, before sending a packet, a QUIC stack may wait to process all incoming packets in case the latter may elect to add frames on the response packet. See Section 13 of <xref target="RFC9000"/> for more information.</t>
     </section>
     <section>
-        <name>Acknowledgement Frequency</name>
-	<t>QUIC stacks have various mechanisms to trigger acknowledgements (ACKs), as described in <xref target="RFC9000"/>, <xref target="I-D.ietf-quic-ack-frequency"/>. There are advantages of sending "frequent" acknowledgements, such as the source can free out memory of received frames earlier. However, this uses more capacity for sending ACKs, and could be problematic in cases of very high link bandwidth or network path capacity asymmetry.</t>
-	<t>Adjusted ACK frequency information is provided to a QUIC peer through an in-band signal in a QUIC ACK_FREQUENCY frame extension to the QUIC base specification.  Usage needs to be negotiated via transport parameters on connection establishment, and desired values need to be provided (e.g. directly by an application or supplied to the stack via a management system).  The max_ack_delay and ack_delay_exponent transport parameters are specified in section 8.2 of <xref target="RFC9000"/>, and requested max_ack_delay changes are provided in ACK_FREQUENCY frames.</t>
-	<t>The optimal ACK frequency is related to the bandwidth asymmetry between the directions of data and acknowledgement flow.  This may vary over time, but also can be known in advance by a route orchestrator or other management system.  In order to optimize performance, ACK frequency may be exposed as a dynamically controlled or time-varying parameter.</t>
-
+      <name>New connection IDs</name>
+      <t>QUIC stacks typically preemptively send new connection IDs to the other peer, for future needs such as future connection migration. However, those use cases may not be happening often in deep space. That optional optimization of sending new connection IDs may not be needed for deep space use case, while the actual cost of these additional bytes is pretty low.</t>
     </section>
     <section>
-        <name>Packet Size and Sending Pace</name>
-        <t>There are pros and cons of sending large packets. Sending smaller packets means using more bandwidth because of multiple headers, unless header compression is used, but decreases the probability of packet loss which in space should be minimized. Sending larger packets means more efficient use of bandwidth, but in front of significant packet loss, may in fact result in using more bandwidth than smaller packets, since they will have to be re-transmitted.</t>
-        <t>In the context of Internet, QUIC stacks may elect to not wait much time in order to add more frames in a single packets to deliver faster to the receiving end point.</t>
-        <t>For deep space applications, where time for transmission is many orders of magnitude longer than on Internet, a QUIC stack may be configured to wait "a bit more" to add more frames to a single packet. For example, before sending a packet, a QUIC stack may wait to process all incoming packets in case the latter may elect to add frames on the response packet.</t>
-    </section>
-    <section>
-        <name>New connection IDs</name>
-        <t>QUIC stacks typically preemptively send new connection IDs to the other peer, for future needs such as future connection migration. However, those use cases may not be happening often in deep space. That optional optimization of sending new connection IDs may not be needed for deep space use case, while the actual cost of these additional bytes is pretty low.</t>
-    </section>
-    <section>
-        <name>FEC</name>
-        <t>CCSDS deep space links uses FEC at layer 2 (TODO: add ref to CCSDS book), using a pipeline of codecs, enabling low frame error rate in the presence of a higher signal bit error rate. While FEC for QUIC has been defined <xref target="I-D.michel-quic-fec"/>, it remains to be seen if it is really needed for deep space.</t>
+      <name>FEC</name>
+      <t>CCSDS deep space links uses FEC at layer 2 (TODO: add ref to CCSDS book), using a pipeline of codecs, enabling low frame error rate in the presence of a higher signal bit error rate. While FEC for QUIC has been defined <xref target="I-D.michel-quic-fec"/>, it remains to be seen if it is really needed for deep space.</t>
     </section>
     <section anchor="moon">
       <name>Moon Deployment Considerations</name>
@@ -150,12 +152,68 @@
       <t>However, if one wants to consider orbiters that will have intermittent communications, then the scenario discussed in <xref target="example"/> also applies and calculating RTT and BDP as discussed previously apply.</t>
     </section>
     <section anchor="intermittence_aware">
-        <name>Intermittence Awareness</name>
-        <t>Another way to solve the generic problem is to make transport aware of the intermittence periods, so that when there is a direct path end-to-end without any intermittence, the normal QUIC behavior such as congestion control may be used with proper RTT configuration, and then a different behavior in the context of intermittence. However, the actual scheduling of communication windows is pretty complicated and have a lot of variations that an intermittence-aware transport will be very fragile.</t>
+      <name>Intermittence Awareness</name>
+      <t>Another way to solve the generic problem is to make transport aware of the intermittence periods, so that when there is a direct path end-to-end without any intermittence, the normal QUIC behavior such as congestion control may be used with proper RTT configuration, and then a different behavior and configuration in the context of intermittence.</t>
     </section>
     <section anchor="application_consideration">
-        <name>Application Considerations</name>
-        <t>On terrestrial Internet, the cost, by time or bandwidth, to re-establish a connection to the same peer is very low, since it is re-established very fast and without too much use of bandwidth. Therefore, often, applications are designed in a pattern of establishing a connection, sending a query, getting the response, closing the connection and redoing the whole process for the next query. In deep space, the cost, specially the delay, of re-establishing a connection is very high. Therefore, applications should be carefully designed to not close connections after a query-response, if there is a possible new queries in the future.</t>
+      <name>Application Considerations</name>
+      <t>On terrestrial Internet, the cost, time or bandwidth, to re-establish a connection to the same peer is very low, since it is re-established very fast and without too much use of bandwidth. Therefore, often, applications are designed in a pattern of establishing a connection, sending a query, getting the response, closing the connection and redoing the whole process for the next query. In deep space, the cost, specially the delay, of re-establishing a connection is very high in the presence of long RTT or intermittence. Therefore, applications should be carefully designed to not close connections after a single query-response, if there are possible new queries in the future.</t>
+    </section>
+    <section>
+      <name>Connection Migration and 0RTT</name>
+      <t>QUIC connection migration enables a client to restore the connection after a change in its IP address or port, as seen by the server. The migration requires 1RTT to be restored. However, given past security credentials being exchanged, data can be sent on the initial packet to re-establish the connection, this process known as 0RTT. However, it is subject to replay attacks<xref target="RFC9001"/>, which means that if 0RTT is used, the application should be careful on what is sent in the 0RTT initial packet, as guidance is provided in <xref target="RFC9001"/> section 5.6. A maximum time is also set for using 0RTT as discussed in <xref target="tls"/>. An application or mission may also decide to disable the use of 0RTT given the security risks.</t>
+    </section>
+    <section>
+      <name>Connection Establishment with a known Peer</name>
+      <t>If a new connection is setup with a known peer, the other peer can provide to the connecting peer some configuration parameters based on the previous connections, using the careful resume mechanism<xref target="RFC9959"/>.</t>
+    </section>
+    <section>
+      <name>Padding and Sending Early</name>
+      <t>When the QUIC frames do not fully use the packet Mtu, padding to fill the MTU can be used to make traffic analysis more difficult, as discussed in section 8.2 of <xref target="RFC9002"/>. However, this consumes more bandwidth which is an important consideration in deep space. Therefore, a mission or application should consider the advantages and disadvantages of padding.</t>
+      <t>Instead of sending right away frames as they are processed, a few numbers per packet, which uses more bandwidth because of the additional headers, the QUIC stack could "wait", by some means, to add more frames to packets to fill them, as discussed in <xref target="packetsize"/>. In this case, the use of padding is less relevant. However, a too long "wait" time may have impact on how timing is calculated and used in the protocol.</t>
+    </section>
+    <section>
+      <name>Multipath QUIC</name>
+      <t>Multipath QUIC may be useful to simultaneously use multiple path for the same connection. However, given the large variation of characteristics such as delay, intermittence and bandwidth in deep space, paths may have very different characteristics, which may inder the effectiveness of multipath QUIC. Extra care should be taken before using this functionality.</t>
+    </section>
+    <section anchor="tls">
+      <name>TLS</name>
+      <t>As discussed in section 4.4 of <xref target="RFC9001"/>, the certification chain size may consume large number of bytes which may be limited at the time of authentication. In deep space, this consideration becomes even more important, given delay and low bandwidth. Therefore, various methods discussed in section 4.4 of <xref target="RFC9001"/> should be considered.</t>
+      <t>As discussed in section 4.6 of <xref target="RFC9001"/>, a limit of 7 days in TLS exists between the original connection and any attempt to use 0-RTT. Given that mobility of a spacecraft may be long before reconnecting, missions should consider such possible limitation for the use of 0RTT.</t>
+      <t>As discussed in section 6.5 of <xref target="RFC9001"/>, a key update initiation should wait 3 times PTO. Given that PTO is calculated based on RTT and that RTT may vary significantly in deep space because intermittence, key updates should be carefully planned.</t>
+      <t>TLS Keys shall be updated depending on the security policy of the mission or the application. QUIC TLS<xref target="RFC9001"/> enables the update of keys from each peer. <xref target="I-D.ietf-quic-extended-key-update"/> enables "frequent key updates without requiring a full handshake renegotiation.  This approach allows applications to refresh their encryption keys more often using ephemeral keys, improving forward secrecy and reducing the risk of key compromise over long-lived connections. Therefore, this mechanism is recommended for deep space applications.</t>
+    </section>
+    <section anchor="scenarios_applicability">
+      <name>Applicability of the QUIC profile For Some Example Scenarios</name>
+      <t>This section lists some scenarios and provide guidance for a possible QUIC profile. This list is not intended to be exhaustive or normative. Moreover, not all parameters are discussed, just the most relevant one for the scenario. The reader should refer to the sections above for complete discussion and references. </t>
+      <section anchor="earth-moon-full">
+        <name>Earth-Moon with Full Connectivity</name>
+        <t>This scenario is where Moon assets are mostly always reachable, as with terrestrial Internet. This can be accomplished in various ways, such as a constellation of satellites around Moon which have Optical Inter-Satellite Links(OISL). The Earth to Moon one-way delay is 1.5 seconds.</t>
+        <t>Given the relatively low one-way delay of 1.5 seconds, a QUIC connection with no specific configuration will be successful, but there will be non-necessary retransmission of initial packets by the source, as discussed in <xref target="initial_rtt"/>. Given full connectivity and relatively low one-way delay, then if a connection is closed, the cost, time or bandwidth, to re-establish it is pretty low. Therefore, complicated configuration to avoid connection timeouts may be avoided to prefer simplicity. Moreover, 0RTT may be disabled without too much costs for more security concerns. As discussed in <xref target="johannes_frisch"/> and <xref target="natia_piotrowski"/>, the BBR congestion controller may be used and will perform better than others.</t>
+      </section>
+      <section anchor="earth-mars-full">
+        <name>Earth-Mars with Full Connectivity</name>
+        <t>This scenario is where Mars assets are mostly always reachable, as with terrestrial Internet. This can be accomplished in various ways, such as a constellation of satellites around Mars which have Optical Inter-Satellite Links(OISL). The Earth to Mars one-way delay is between 4 and 22 minutes, depending on the relative position of each planet.</t>
+        <t>Compared to the previous Moon Full connectivity, the one-way delay is enough large that a QUIC connection without specific configuration will not be established, as demonstrated in <xref target="deepspace_simulations"/>. Therefore, the very minimum is to set the initial_rtt to an appropriate value as discussed in <xref target="initial_rtt"/>, such as 22 minutes times 2 plus some margin. Moreover, the max_idle_timeout should be set to an appropriate value as discussed in <xref target="max_idle_timeout"/>, such as a multiple of the largest RTT and may even be set to a larger one depending on the application traffic pattern or use keep alive on a periodicity smaller than the set max_idle_timeout.</t>
+      </section>
+      <section>
+        <name>Earth to Cruising Spacecraft</name>
+        <t>This scenario is of a cruising spacecraft with direct communication to Earth. The one-way delay will increase over time, but at orders of magnitude lower speed than the speed of light, therefore its movement is marginal to influence the protocol: the RTT will increase "slowly". </t>
+        <t>As discussed in section <xref target="initial_rtt"/>, if the one-way delay is 15 seconds or more and a new QUIC connection is started, the establishment will not succeed without setting the initial_rtt based on the delay. If the one-way delay is lower than 15 seconds, a non-profiled QUIC connection should be established but at a cost of multiple restransmissions of the initial packet. Max_idle_timeout should be set depending on the one-way delay and appplication traffic pattern.</t>
+      </section>
+      <section anchor="earth-moon-intermittence">
+        <name>Earth-Moon with Intermittence</name>
+        <t>This scenario is where Moon assets are reachable by intermittence from Earth. This can happened when there is a limited number of satellites which do not provide full time connectivity. The Earth to Moon one-way delay is 1.5 seconds.</t>
+        <t>If the periods of reachability are "long enough", then the cost of establishing a new QUIC connection at the start of a new reachability period may not be too high. Given that the schedule of intermittence is known, the QUIC connection can also be closed gracefully with explicit close signaling at the end of the reachability period. This scenario does not require long time buffering of packets in satellites, as there shall be no packets sent during the blackout periods. During the reachability periods, the scenario is identical to <xref target="earth-moon-full"/></t>
+        <t>The paragraph below somewhat assumes that the applications or some application orchestrator know the schedule of intermittence. In the case the schedule is unknown by at least one of the peers, then packets may be sent during the blackout periods, which means that the packets will be stored somewhere in the network until the reachability is back. This makes the RTT very variable depending on when those events happen. As discussed in <xref target="congestion_control"/>, typical congestion controller will not work in this context. Therefore a rate-based open loop congestion control algorithms is preferred.</t>
+      </section>
+      <section>
+        <name>Earth-Mars Full Connectivity</name>
+        <t>This scenario is where Mars assets are reachable by intermittence from Earth. This can happened when there is a limited number of satellites which do not provide full time connectivity. The Earth to Mars one-way delay is between 4 and 22 minutes, depending on the relative position of each planet.</t>
+        <t>As discussed in <xref target="earth-mars-full"/>, the initial_rtt and max_idle_timeout must be set large enough but in this case, to also include the maximum RTT based on the expected contact gap plus the maximum one-way delay times 2.</t>
+        <t>Compared to <xref target="earth-moon-intermittence"/>, the long delay makes typically not feasible to open a new connection at the beginning of the reachability window and then close it at the end of the reachability window. In many cases, the distance RTT is larger than the overpass of the satellite to the Mars asset, which means the reachability window is way too small. In this context, the QUIC connection has to be opened once and kept over the duration of multiple orbit periods. Similarly, the congestion controller should be of rate-based open loop type.</t>
+        <t>The packets should be buffered in intermediate nodes of the network, in order to minimize retransmissions and to maximize the use of the limited bandwidth.</t>
+      </section>
     </section>
     <section anchor="IANA">
       <name>IANA Considerations</name>
@@ -163,7 +221,7 @@
     </section>
     <section anchor="Security">
       <name>Security Considerations</name>
-      <t>The use of 0-RTT is subject to replay attacks<xref target="RFC9001"/> and therefore should be considered to be disabled depending on the security policy of the mission.</t>
+      <t>The use of 0-RTT is subject to replay attacks<xref target="RFC9001"/> and therefore may be disabled depending on the security policy of the mission.</t>
       <t>Certificates and keys need to be renewed before their expiration, taking into account the delay to send, receive and confirm. Protocols such as OCSP<xref target="RFC6960"/> providing on-line real-time validation and revocation check will likely not work given the too long delays, therefore certificates need to be validated using local trust anchors.</t>
       <t>The use of long term keys, such as ones set prior to launch, may create exposure, therefore keys should be renewed at appropriate frequency.</t>
     </section>
@@ -186,19 +244,47 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9000.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9001.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9002.xml"/>
+        <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9959.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.michel-quic-fec.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-careful-resume.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-quic-ack-frequency.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tiptop-usecase.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.many-tiptop-ip-architecture.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tiptop-ip-architecture.xml"/>
         <reference anchor="iana_quic_transport" target="https://www.iana.org/assignments/quic/quic.xhtml#quic-transport">
-            <front>
-              <title>QUIC Transport Parameters</title>
-              <author>
-                <organization>Internet Assigned Numbers Authority(IANA)</organization>
-              </author>
-              <date year="2025" month="September"/>
-            </front>
+          <front>
+            <title>QUIC Transport Parameters</title>
+            <author>
+              <organization>Internet Assigned Numbers Authority(IANA)</organization>
+            </author>
+            <date year="2025" month="September"/>
+          </front>
+        </reference>
+        <reference anchor="deepspace_simulations" target="https://github.com/deepspaceip/deepspac-ip-simulations">
+          <front>
+            <title>Deepspace Simulations of QUIC Transport Parameters</title>
+            <author>
+              <organization>Marc Blanchet</organization>
+            </author>
+            <date year="2026" month="July"/>
+          </front>
+        </reference>
+        <reference anchor="johannes_frisch" target="https://datatracker.ietf.org/meeting/126/materials/slides-126-tiptop-TBD">
+          <front>
+            <title>Evaluation of QUIC in Interplanetary Networks</title>
+            <author>
+              <organization>Johannes Frisch</organization>
+            </author>
+            <date year="2026" month="April"/>
+          </front>
+        </reference>
+        <reference anchor="quinn_keepalive" target="https://docs.rs/quinn/latest/quinn/struct.TransportConfig.html#method.keep_alive_interval">
+          <front>
+            <title>Struct TransportConfig</title>
+            <author>
+              <organization>Quinn</organization>
+            </author>
+            <date year="2026"/>
+          </front>
         </reference>
       </references>
     </references>
