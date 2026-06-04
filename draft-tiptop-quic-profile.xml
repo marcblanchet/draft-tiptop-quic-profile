@@ -82,7 +82,7 @@
       <section anchor="initial_rtt">
         <name>Initial RTT</name>
         <t>To prime the QUIC stack with the expected RTT of the mission, an application should set the Initial RTT on connection establishment to the maximum RTT as calculated in <xref target="calculate_rtt"/>.</t>
-        <t>If the set initial RTT is too low, then retransmission of the initial packet will be sent before the acknowledgement is received, therefore extra bandwidth will be used. If the actual one-way delay is long enough, such as for communicating to Mars, then not only retransmissions will occur, but the connection will be closed by the client before the acknowledgement is received, therefore, no QUIC connection is possible. In long one-way delay scenarios, setting the initial_rtt properly is mandatory. Simulations show<xref target="deepspaceSimulations"/><xref target="johannes_frisch"/> that with a one-way delay of 15 seconds or more and a default initial RTT of 333 ms, the initial RTT MUST be set for the connection to not timeout during the establishment period.</t>
+        <t>If the set initial RTT is too low, then retransmission of the initial packet will be sent before the acknowledgement is received, therefore extra bandwidth will be used. If the actual one-way delay is long enough, such as for communicating to Mars, then not only retransmissions will occur, but the connection will be closed by the client before the acknowledgement is received, therefore, no QUIC connection is possible. In long one-way delay scenarios, setting the initial_rtt properly is mandatory. Simulations show<xref target="deepspace_simulations"/><xref target="johannes_frisch"/> that with a one-way delay of 15 seconds or more and a default initial RTT of 333 ms, the initial RTT MUST be set for the connection to not timeout during the establishment period.</t>
         <t> If the set initial RTT is too high, then when a packet is lost, the retransmission will be started later than the optimal time, therefore the total time to transmit all the data, including the losses recovered, will be longer than if it was set properly, but the QUIC stack will still converge and deliver reliable data. As the initial RTT is only used to prime the RTT at the beginning of the connection, the real measured RTT will replace the too high initial RTT used initially.</t>
         <t>The initial_rtt transport parameter is specified in <xref target="RFC9002"/>.</t>
       </section>
@@ -165,7 +165,7 @@
     </section>
     <section>
       <name>Connection Establishment with a known Peer</name>
-      <t>If a new connection is setup with a known peer, the other peer can provide to the connecting peer some configuration parameters based on the previous connections, using the careful resume mechanism<xref target="RFC9959"/>.</t>
+      <t>If a new connection is setup with a known peer, the other peer can provide to the connecting peer some configuration parameters based on the previous connections, using the careful resume mechanism<xref target="RFC9959"/>. Simulations has found its usefulness for Moon scenarios<xref target="natia_piotrowski"/>.</t>
     </section>
     <section>
       <name>Padding and Sending Early</name>
@@ -246,10 +246,10 @@
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9002.xml"/>
         <xi:include href="https://www.rfc-editor.org/refs/bibxml/reference.RFC.9959.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.michel-quic-fec.xml"/>
-        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-careful-resume.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-quic-ack-frequency.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tiptop-usecase.xml"/>
         <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-tiptop-ip-architecture.xml"/>
+        <xi:include href="https://bib.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-quic-extended-key-update.xml"/>
         <reference anchor="iana_quic_transport" target="https://www.iana.org/assignments/quic/quic.xhtml#quic-transport">
           <front>
             <title>QUIC Transport Parameters</title>
@@ -259,13 +259,22 @@
             <date year="2025" month="September"/>
           </front>
         </reference>
-        <reference anchor="deepspace_simulations" target="https://github.com/deepspaceip/deepspac-ip-simulations">
+        <reference anchor="deepspace_simulations" target="https://github.com/deepspaceip/deepspace-ip-simulations">
           <front>
             <title>Deepspace Simulations of QUIC Transport Parameters</title>
             <author>
               <organization>Marc Blanchet</organization>
             </author>
             <date year="2026" month="July"/>
+          </front>
+        </reference>
+        <reference anchor="natia_piotrowski" target="https://datatracker.ietf.org/meeting/124/materials/slides-124-tiptop-quic-to-the-moon-measurements-00">
+          <front>
+            <title>QUIC to the Moon Measurements</title>
+            <author>
+              <organization>Natia Piotrowski</organization>
+            </author>
+            <date year="2025" month="November"/>
           </front>
         </reference>
         <reference anchor="johannes_frisch" target="https://datatracker.ietf.org/meeting/126/materials/slides-126-tiptop-TBD">
