@@ -170,7 +170,7 @@
     <section>
       <name>Padding and Sending Early</name>
       <t>When the QUIC frames do not fully use the packet Mtu, padding to fill the MTU can be used to make traffic analysis more difficult, as discussed in section 8.2 of <xref target="RFC9002"/>. However, this consumes more bandwidth which is an important consideration in deep space. Therefore, a mission or application should consider the advantages and disadvantages of padding.</t>
-      <t>Instead of sending right away frames as they are processed, a few numbers per packet, which uses more bandwidth because of the additional headers, the QUIC stack could "wait", by some means, to add more frames to packets to fill them, as discussed in <xref target="packetsize"/>. In this case, the use of padding is less relevant. However, a too long "wait" time may have impact on how timing is calculated and used in the protocol.</t>
+      <t>Instead of sending right away frames as they are processed, a few per packet, which uses more bandwidth because of the additional headers, the QUIC stack could "wait", by some means, to add more frames to packets to fill them, as discussed in <xref target="packetsize"/>. In this case, the use of padding is less relevant.</t>
     </section>
     <section>
       <name>Multipath QUIC</name>
