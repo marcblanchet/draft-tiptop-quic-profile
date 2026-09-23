@@ -7,10 +7,10 @@
 <!ENTITY nbhy "&#8209;">
 <!ENTITY wj "&#8288;">
 ]>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-many-tiptop-quic-profile-03" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-ietf-tiptop-quic-profile-00" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" version="3">
   <front>
     <title>QUIC Profile for Deep Space</title>
-    <seriesInfo name="Internet-Draft" value="draft-many-tiptop-quic-profile-03"/>
+    <seriesInfo name="Internet-Draft" value="draft-ietf-tiptop-quic-profile-00"/>
     <author fullname="Marc Blanchet" initials="MB">
       <organization>Viagenie</organization>
       <address>
@@ -63,17 +63,16 @@
     </section>
     <section anchor="path_calculations">
       <name>Path Characteristics Calculations</name>
-      <t>This section describes how to calculate the path characteristics of a mission, which are then used to configure the transport parameters and local implementation settings discussed in the following sections.</t>
+      <t>This section summarizes the path characteristics of a mission, which are then used to configure the transport parameters and local implementation settings discussed in the following sections. The calculation of the minimum and maximum RTT (minRTT, maxRTT) and of the minimum and maximum bandwidth-delay product (minBDP, maxBDP) of a path is described in <xref target="I-D.ietf-tiptop-usecase"/>, together with examples for the connectivity scenarios used in this document.</t>
       <section anchor="calculate_rtt">
         <name>RTT Calculation</name>
         <t>A QUIC stack continuously estimates the round-trip time (RTT) between the two peers over the lifetime of the connection. This estimate drives loss detection <xref target="RFC9002"/>: both the time threshold after which a sent packet is declared lost and its data retransmitted, and the probe timeout (PTO) after which a probe is sent when no acknowledgement arrives, are derived from the RTT estimate. Using the Earth-Mars with intermittent connectivity (MI) scenario described in <xref target="I-D.ietf-tiptop-usecase"/>, it is necessary to prime the QUIC stack with the right initial values, to avoid, for example, the probe timeout firing and sending probes about one second after a packet is sent, based on the default initial RTT of 333 ms, while the expected RTT is 2 hours.</t>
-        <t>A space application designer should calculate the maximum RTT for its mission. Using the MI scenario, the maximum RTT due to the maximum two-way delay is 48 minutes and the maximum RTT due to the overpass frequency is 6 hours; therefore, the maximum RTT is 6 hours 48 minutes.</t>
-        <t>A space application designer should calculate the minimum RTT for its mission. Using the MI scenario, the minimum RTT due to the minimum two-way delay is 8 minutes and the minimum RTT due to the overpass frequency is 0, assuming direct line of sight for the whole path; therefore, the minimum RTT is 8 minutes.</t>
+        <t>A space application designer should calculate the maximum RTT (maxRTT) and the minimum RTT (minRTT) for its mission, as described in <xref target="I-D.ietf-tiptop-usecase"/>. Using the MI scenario, the maxRTT is 6 hours 48 minutes and the minRTT is 8 minutes.</t>
       </section>
       <section anchor="calculate_bdp">
         <name>Bandwidth-Delay Product (BDP) Calculation</name>
         <t>A QUIC stack, like any transport stack, manages the pacing of packets sent from the source to avoid overloading the network, creating congestion, or overwhelming the other peer.</t>
-        <t>A space application designer should calculate the bandwidth-delay product (BDP) of the whole path for its mission. The minimum BDP should be calculated with the minimum RTT and the minimum bandwidth used during those times. The maximum BDP should be calculated with the maximum RTT and the maximum bandwidth.</t>
+        <t>A space application designer should calculate the minimum and maximum bandwidth-delay product (minBDP, maxBDP) of the whole path for its mission, as described in <xref target="I-D.ietf-tiptop-usecase"/>.</t>
       </section>
     </section>
     <section anchor="connection_establishment">
